@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/util 
+           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName" default-lazy-init="true">
+
+	<!-- load properties file -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:forge/forge.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="forge" scope="prototype" depends-on="InitSysProps"
+		class="com.successfactors.forge.Forge" init-method="init">
+
+	</bean>
+
+	<bean name="InitSysProps"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean
+				class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System" />
+				<property name="targetMethod" value="getProperties" />
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<!-- The new Properties -->
+			<util:properties>
+				<prop key="sf.sfv4.dbPool.size">1</prop>
+			</util:properties>
+		</property>
+	</bean>
+
+
+
+
+	<!-- commands -->
+	<bean name="serviceCommandHandler" scope="prototype"
+		class="com.successfactors.forge.AutoDetectableSerivceCommandHandler">
+		<property name="commands">
+			<map>
+				 <entry key="com.successfactors.picklist.service.GetPickListV1">
+				 	<ref bean="getPickListV1"/>
+				 </entry> 
+				 <entry key="com.successfactors.sm.service.GetDataModel">
+				 	<ref bean="getDataModel"/>
+				 </entry> 
+				 <entry key="com.successfactors.matrixgrid.service.GetMatrixGrid">
+				 	<ref bean="getMatrixGrid"/>
+				 </entry> 
+				 <entry key="com.successfactors.calibration.service.TakeRatingSnapshot">
+					 <ref bean="takeRatingSnapshot"/>
+				  </entry> 
+				  <entry key="com.successfactors.calibration.service.GetCalSession">
+					  <ref bean="getCalSession"/>
+				    </entry> 
+				    <entry key="com.successfactors.pmcommon.service.GetFormTemplateByIdV2">
+				       <ref bean="getFormTemplateByIdV2"/>
+					</entry> 
+					<entry key="com.successfactors.legacy.service.GetSysConfigList">
+						<ref bean="getSysConfigList"/>
+					</entry> 
+					<entry key="com.successfactors.legacy.service.GetSysConfig">
+						<ref bean="getSysConfig"/>
+					</entry>
+					 <entry key="com.successfactors.legacy.service.GetSysConfigV2">
+					 	<ref bean="getSysConfigV2"/>
+				     </entry>
+			         <entry key="com.successfactors.legacy.service.GetSysConfigListV2">
+					 	<ref bean="getSysConfigListV2"/>
+					</entry> 
+					<entry key="com.successfactors.competency.service.GetScaleV6">
+					     <ref bean="getScaleV6"/>
+					</entry> 
+					<entry key="com.successfactors.pmcommon.service.GetRouteMapByIdV1">
+						<ref bean="getRouteMapByIdV1"/>
+					</entry> 
+					<entry key="com.successfactors.calibration.service.GetCalSettings">
+						<ref bean="getCalSettings"/>
+					</entry> 
+					<entry key="com.successfactors.calibration.service.GetCalSessionWithData">
+						<ref bean="getCalSessionWithData"/>
+					</entry> 
+					<!-- <entry key="com.successfactors.pmcommon.service.GetFormMetaDataBatchV2">
+						<ref bean="GetFormMetaDataBatchV2"/>
+					</entry>  -->
+					<entry key="com.successfactors.pmcommon.service.GetFormMetaDataBatchV1">
+						<ref bean="getFormMetaDataBatchV1"/>
+					</entry> 
+					<entry key="com.successfactors.legacy.service.GetCustomLanguagePack">
+						<ref bean="getCustomLanguagePack"/>
+					</entry>
+					<entry key="com.successfactors.pmcommon.service.GetFormTemplateByIdV1">
+						<ref bean="getFormTemplateByIdV1"/>
+					</entry> 
+					
+				<!-- <entry key="com.successfactors.compensation.service.GetBudget4PlanByPlanId">
+					<ref bean="GetBudget4PlanByPlanId" />
+				</entry>
+				<entry key="com.successfactors.compensation.service.CheckRatingSource">
+					<ref bean="CheckRatingSource" />
+				</entry> -->
+				
+				
+				
+				<!--Compensation SCA  -->
+				<!-- READ-ONLY SCA  -->
+				<entry key="com.successfactors.compensation.service.GetCompEligHierarchySize">		
+					<ref bean="GetCompEligHierarchySize"/>
+				</entry>
+				<entry key="com.successfactors.compensation.service.GetCompensationConfigByFormDataId">		
+					<ref bean="GetCompensationConfigByFormDataId"/>
+				</entry>
+				<!-- <entry key="com.successfactors.pmcommon.service.GetFormTemplateListByTypeV1">		
+					<ref bean="GetFormTemplateListByTypeV1"/>
+				</entry> -->
+				<entry key="com.successfactors.compensation.service.GetCompPlanIds">		
+					<ref bean="GetCompPlanIds"/>
+				</entry>
+				<entry key="com.successfactors.compensation.service.GetAllEligiblePlanners">		
+					<ref bean="GetAllEligiblePlanners"/>
+				</entry>
+				<entry key="com.successfactors.compensation.service.GetCompensationPlanByPlanId">
+						<ref bean="GetCompensationPlanByPlanId"/>
+				</entry> 
+				<!-- <entry key="com.successfactors.compensation.service.GetCompensationPlanByPlanIdV2">
+						<ref bean="GetCompensationPlanByPlanIdV2"/>
+				</entry>  -->
+				<!-- <entry key="com.successfactors.hris.service.GetListOfValidECTUsers">
+						<ref bean="GetListOfValidECTUsers"/>
+				</entry> 
+				<entry key="com.successfactors.user.service.FetchUserInfoRecordsInBatchV2">
+						<ref bean="FetchUserInfoRecordsInBatchV2"/>
+				</entry> 
+				<entry key="com.successfactors.user.service.FindUserFullNameByIds">
+						<ref bean="FindUserFullNameByIds"/>
+				</entry> 
+				<entry key="com.successfactors.sm.service.GetUserPersonalConfigList">
+						<ref bean="GetUserPersonalConfigList"/> 
+				</entry> -->
+				<entry key="com.successfactors.compensation.service.GetPayMatrix">
+						<ref bean="GetPayMatrix"/>
+				</entry> 
+				<!-- <entry key="com.successfactors.compensation.service.GetMatchedRulesForUsers">
+						<ref bean="GetMatchedRulesForUsers"/>
+				</entry>  -->
+				
+				
+				<!-- WRITE SCA -->
+				<entry key="com.successfactors.compensation.service.CreateCompensationPlan">
+						<ref bean="CreateCompensationPlan"/>
+				</entry> 
+				<entry key="com.successfactors.compensation.service.DeleteCompensationPlan">
+						<ref bean="DeleteCompensationPlan"/>
+				</entry> 
+				
+				
+			</map>
+		</property>
+	</bean>
+
+
+
+
+	 <bean name="getPickListV1" scope="singleton" class="com.successfactors.picklist.service.impl.GetPickListV1Impl"/> 
+		<bean name="getDataModel" scope="singleton" class="com.successfactors.sm.service.impl.GetDataModelImpl"/> 
+		<bean name="getMatrixGrid" scope="singleton" class="com.successfactors.matrixgrid.service.impl.GetMatrixGridImpl"/> 
+		<bean name="getCustomLanguagePack" scope="singleton" class="com.successfactors.legacy.service.impl.GetCustomLanguagePackImpl"/> 
+		<bean name="takeRatingSnapshot" scope="singleton" class="com.successfactors.calibration.service.impl.TakeRatingSnapshotImpl"/> 
+		<bean name="getCalSession" scope="singleton" class="com.successfactors.calibration.service.impl.GetCalSessionImpl"/> 
+		<bean name="getFormTemplateByIdV2" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetFormTemplateByIdV2Impl"/> 
+		<bean name="getSysConfigList" scope="singleton" class="com.successfactors.legacy.service.impl.GetSysConfigListImpl"/> 
+		<bean name="getSysConfig" scope="singleton" class="com.successfactors.legacy.service.impl.GetSysConfigImpl"/> 
+		<bean name="getSysConfigV2" scope="singleton" class="com.successfactors.legacy.service.impl.GetSysConfigV2Impl"/> 
+		<bean name="getSysConfigListV2" scope="singleton" class="com.successfactors.legacy.service.impl.GetSysConfigListV2Impl"/> 
+		<bean name="getScaleV6" scope="singleton" class="com.successfactors.competency.service.impl.GetScaleV6Impl"/> 
+		<bean name="getRouteMapByIdV1" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetRouteMapByIdV1Impl"/> 
+		<bean name="getCalSettings" scope="singleton" class="com.successfactors.calibration.service.impl.GetCalSettingsImpl"/> 
+		<bean name="getCalSessionWithData" scope="singleton" class="com.successfactors.calibration.service.impl.GetCalSessionWithDataImpl"/> 
+		<!-- <bean name="getFormMetaDataBatchV2" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetFormMetaDataBatchV2Impl"/>  -->
+		<bean name="getFormMetaDataBatchV1" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetFormMetaDataBatchV1Impl"/> 
+		<bean name="getFormTemplateByIdV1" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetFormTemplateByIdV1Impl"/> 
+	<!-- <bean name="GetEffectiveRecordForUsers" scope="singleton"
+		class="com.successfactors.hris.service.impl.GetEffectiveRecordForUsersImpl"></bean>  -->
+		<!-- <bean name="GetBudget4PlanByPlanId" scope="singleton" class="com.successfactors.compensation.service.impl.GetBudget4PlanByPlanIdImpl"></bean>
+		<bean name="CheckRatingSource" scope="singleton" class="com.successfactors.compensation.service.impl.CheckRatingSourceImpl"></bean> -->
+		
+		
+		<!-- Compensation SCA Unit Test -->
+		
+		<!-- READ-ONLY SCA -->
+		<bean name="GetCompEligHierarchySize" scope="singleton" class="com.successfactors.compensation.service.impl.GetCompEligHierarchySizeImpl"></bean>
+		<bean name="GetCompensationConfigByFormDataId" scope="singleton" class="com.successfactors.compensation.service.impl.GetCompensationConfigByFormDataIdImpl"></bean>
+		<!-- <bean name="GetFormTemplateListByTypeV1" scope="singleton" class="com.successfactors.pmcommon.service.impl.GetFormTemplateListByTypeV1Impl"></bean> -->
+		<bean name="GetCompPlanIds" scope="singleton" class="com.successfactors.compensation.service.impl.GetCompPlanIdsImpl"></bean>
+		<bean name="GetAllEligiblePlanners" scope="singleton" class="com.successfactors.compensation.service.impl.GetAllEligiblePlannersImpl"></bean>
+		<bean name="GetCompensationPlanByPlanId" scope="singleton" class="com.successfactors.compensation.service.impl.GetCompensationPlanByPlanIdImpl"></bean>
+		<!-- <bean name="GetCompensationPlanByPlanIdV2" scope="singleton" class="com.successfactors.compensation.service.impl.GetCompensationPlanByPlanIdV2Impl"></bean>
+		<bean name="GetListOfValidECTUsers" scope="singleton" class="com.successfactors.hris.service.impl.GetListOfValidECTUsersImpl"></bean>
+		<bean name="FetchUserInfoRecordsInBatchV2" scope="singleton" class="com.successfactors.user.service.impl.FetchUserInfoRecordsInBatchV2Impl"></bean>
+		<bean name="FindUserFullNameByIds" scope="singleton" class="com.successfactors.user.service.impl.FindUserFullNameByIdsImpl"></bean>
+		<bean name="GetUserPersonalConfigList" scope="singleton" class="com.successfactors.sm.service.impl.GetUserPersonalConfigListImpl"></bean>--> 
+		<bean name="GetPayMatrix" scope="singleton" class="com.successfactors.compensation.service.impl.GetPayMatrixImpl"></bean>
+		<!--<bean name="GetMatchedRulesForUsers" scope="singleton" class="com.successfactors.compensation.service.impl.GetMatchedRulesForUsersImpl"></bean> --> 
+		<!-- WRITE -->
+		<bean name="CreateCompensationPlan" scope="singleton" class="com.successfactors.compensation.service.impl.CreateCompensationPlanImpl"></bean>
+		<bean name="DeleteCompensationPlan" scope="singleton" class="com.successfactors.compensation.service.impl.DeleteCompensationPlanImpl"></bean>
+		
+	<!-- components -->
+	<bean name="seamEnvironment" scope="prototype"
+		class="com.successfactors.forge.ForgeSeamEnvironment">
+		<constructor-arg>
+			<map>
+				<entry key="params">
+					<ref bean="paramBean" />
+				</entry>
+				<entry key="session">
+					<ref bean="hibernateSession" />
+				</entry>
+				<entry key="sessionValidateDAO">
+					<ref bean="calSessionValidateDAO" />
+				</entry>
+				<entry key="calGeneralDAO">
+					<ref bean="calGeneralDAO" />
+				</entry>	
+			</map>
+		</constructor-arg>
+		<property name="namedComponents">
+			<map>
+				<entry key="scaHandler">
+					<ref bean="serviceCommandHandler" />
+				</entry>
+				<entry key="params">
+					<ref bean="paramBean" />
+				</entry>
+				<entry key="dbConnection">
+					<ref bean="forgeConnection" />
+				</entry>
+				<entry key="permissionService">
+					<ref bean="permissionService" />
+				</entry>
+				<entry key="v10msgs">
+					<ref bean="v10msgs" />
+				</entry>
+				<entry key="successionRptService">
+					<ref bean="successRptService" />
+				</entry>
+			</map>
+		</property>
+
+		<property name="components">
+			<list>
+				<ref bean="calSessionDAO" />
+				<ref bean="calAuditTrailDAO" />
+				<ref bean="CompensationDAO" />
+				<ref bean="FormDAO" />
+				<ref bean="TodoEntryDAO" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="calSessionDAO" scope="singleton"
+		class="com.successfactors.calibration.dao.impl.hibernate.CalSessionDAOImpl" />
+
+	<bean name="calSessionValidateDAO" scope="singleton"
+		class="com.successfactors.calibration.dao.impl.oracle.CalSessionValidateDAOImpl" />
+
+	<bean name="calGeneralDAO" scope="singleton"
+		class="com.successfactors.calibration.dao.impl.oracle.CalGeneralDAOImpl" />
+	
+	<bean name="calAuditTrailDAO" scope="singleton"
+		class="com.successfactors.calibration.dao.impl.hibernate.CalAuditTrailDAOImpl" />
+		
+	<bean name="CompensationDAO" scope="singleton"
+		class="com.successfactors.compensation.dao.impl.oracle.OracleCompensationDAO" />
+		
+	<bean name="FormDAO" scope="singleton"
+		class="com.successfactors.pmcommon.dao.impl.oracle.OracleFormDAO" />
+
+	<bean name="TodoEntryDAO" scope="singleton"
+		class="com.successfactors.home.dao.impl.oracle.OracleTodoEntryDAO" />
+	<bean name="permissionService" scope="prototype"
+		class="com.successfactors.forge.MockPermissionService" factory-method="getPermissionService">
+		<constructor-arg>
+			<ref bean="paramBean" />
+		</constructor-arg>
+	</bean>
+
+	<bean name="v10msgs" scope="singleton"
+		class="com.successfactors.calibration.ForgeMessage" factory-method="getV10Messages" />
+
+	<bean name="seamDependencyInjector" scope="singleton"
+		class="com.successfactors.forge.ForgeSeamDependencyInjector" />
+
+
+	<!-- ejb -->
+	<bean name="jndiEnvironment" scope="singleton"
+		class="com.successfactors.forge.ForgeJNDIEnvironment">
+		<constructor-arg>
+			<map>
+				<entry key="ServiceCommandProcessorHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.sca.service.ejb.ServiceCommandProcessorHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.sca.service.ejb.ServiceCommandProcessor"></property>
+						<property name="ejb">
+							<null /><!-- <ref bean="serviceCommandProcessorEJB"/> -->
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+
+		<property name="namedObjects">
+			<map>
+				<entry key="FormHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.pmcommon.service.ejb.FormHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.pmcommon.service.ejb.Form"></property>
+						<property name="ejb">
+							<ref bean="formEJB" />
+						</property>
+
+					</bean>
+				</entry>
+
+				<entry key="SysConfigHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.legacy.service.ejb.SysConfigHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.legacy.service.ejb.SysConfig"></property>
+						<property name="ejb">
+							<ref bean="sysConfigEJB" />
+						</property>
+
+					</bean>
+				</entry>
+
+				<entry key="SuccessionHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.sm.service.ejb.SuccessionHome"></property>
+						<property name="ejbClass" value="com.successfactors.sm.service.Succession"></property>
+						<property name="ejb">
+							<ref bean="successionEJB" />
+						</property>
+
+					</bean>
+				</entry>
+
+				<entry key="RBPServiceHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.rbp.service.ejb.RBPServiceHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.rbp.service.ejb.RBPService"></property>
+						<property name="ejb">
+							<ref bean="RBPServiceEJB" />
+						</property>
+
+					</bean>
+				</entry>
+
+				<entry key="UserHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.user.service.ejb.UserHome"></property>
+						<property name="ejbClass" value="com.successfactors.user.service.ejb.User"></property>
+						<property name="ejb">
+							<ref bean="userEJB" />
+						</property>
+					</bean>
+				</entry>
+
+				<entry key="PicklistHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.picklist.service.ejb.PicklistHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.picklist.service.ejb.Picklist"></property>
+						<property name="ejb">
+							<ref bean="picklistEJB" />
+						</property>
+
+					</bean>
+				</entry>
+				<entry key="CompensationHome">
+					<bean class="com.successfactors.forge.ForgeEJB">
+						<property name="homeClass"
+							value="com.successfactors.compensation.service.ejb.CompensationHome"></property>
+						<property name="ejbClass"
+							value="com.successfactors.compensation.service.ejb.Compensation"></property>
+						<property name="ejb">
+							<ref bean="compensationEJB" />
+						</property>
+
+					</bean>
+				</entry>
+
+				
+
+				<entry key="java:/dbPool">
+					<ref bean="dataSource" />
+				</entry>
+
+				<entry key="java:/dbPool1">
+					<ref bean="dataSource" />
+				</entry>
+
+				<entry key="java:/dryrundbPool1">
+					<ref bean="dataSource" />
+				</entry>
+
+				<entry key="java:/contentmgmt">
+					<ref bean="dataSource" />
+				</entry>
+
+			</map>
+		</property>
+
+	</bean>
+
+	<bean name="formEJB" scope="prototype"
+		class="com.successfactors.pmcommon.service.ejb.FormEJB" />
+
+	<bean name="sysConfigEJB" scope="prototype"
+		class="com.successfactors.legacy.service.ejb.SysConfigEJB" />
+
+	<bean name="successionEJB" scope="prototype"
+		class="com.successfactors.sm.service.ejb.SuccessionEJB" />
+
+	<bean name="picklistEJB" scope="prototype"
+		class="com.successfactors.picklist.service.ejb.PicklistEJB" />
+
+	<bean name="compensationEJB" scope="prototype"
+		class="com.successfactors.compensation.service.ejb.CompensationEJB" />
+
+	<bean name="userEJB" scope="prototype"
+		class="com.successfactors.user.service.ejb.UserEJB" />
+
+	<bean name="RBPServiceEJB" scope="prototype"
+		class="com.successfactors.rbp.service.ejb.RBPServiceEJB" />
+
+	<bean name="successRptService" scope="prototype"
+		class="com.successfactors.calibration.ForgeEJB" factory-method="createEJB">
+		<constructor-arg>
+			<value>com.successfactors.matrixgrid.service.SuccessionRpt</value>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="successionRptEJB" />
+		</constructor-arg>
+	</bean>
+
+	<bean name="successionRptEJB" scope="prototype"
+		class="com.successfactors.matrixgrid.service.ejb.SuccessionRptEJB" />
+
+	<bean id="dataSource" scope="singleton"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /><!-- 
+			TODO HANA support? -->
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- <property name="validationQuery" value="SELECT 1" /> <property name="testOnBorrow" 
+			value="true" /> <property name="defaultAutoCommit" value="false" /> -->
+		<property name="maxWait" value="1000" />
+		<!--<property name="maxActive" value="10" /> <property name="initialSize" 
+			value="10" /> -->
+
+	</bean>
+
+	<!-- hibernate session -->
+	<bean name="forgeConnection" scope="prototype"
+		class="com.successfactors.forge.ForgeConnection">
+		<constructor-arg>
+			<ref bean="hibernateConnection" />
+		</constructor-arg>
+		<constructor-arg value=";DEFAULT_SCHEMA;" />
+		<constructor-arg value="${schema}_${company}." />
+		<constructor-arg>
+			<ref bean="companyBean" />
+		</constructor-arg>
+	</bean>
+
+
+	<bean name="hibernateConnection" scope="prototype" class="java.sql.Connection"
+		factory-bean="hibernateSession" factory-method="connection"></bean>
+
+	<bean name="hibernateSession" scope="prototype" class="org.hibernate.Session"
+		factory-bean="hibernateSessionFactory" factory-method="openSession"></bean>
+
+	<bean name="hibernateSessionFactory" scope="prototype"
+		class="org.hibernate.SessionFactory" factory-bean="hibernateConfigurator"
+		factory-method="buildSessionFactory" />
+
+	<bean name="hibernateConfigurator" scope="prototype"
+		class="org.hibernate.cfg.AnnotationConfiguration" factory-bean="hibernateAnnotationConfigurator"
+		factory-method="configure">
+		<constructor-arg>
+			<value>forge/forge-hibernate.cfg.xml</value>
+		</constructor-arg>
+	</bean>
+
+	<bean name="hibernateAnnotationConfigurator" scope="prototype"
+		class="org.hibernate.cfg.AnnotationConfiguration" />
+
+	<bean name="companyBean" scope="prototype"
+		class="com.successfactors.forge.AllFeatureCompanyBean">
+		<property name="companyId" value="${company}" />
+		<property name="oraclePoolId" value="${dbpool}" />
+		<property name="hanaPoolId" value="${dbpool}" />
+	</bean>
+
+	<bean name="paramBean" scope="prototype"
+		class="com.successfactors.forge.AllFeatureParamBean">
+		<property name="companyId" value="${company}" />
+		<property name="companySchema" value="${schema}_${company}." />
+		<property name="locale" value="${locale}" />
+		<property name="userId" value="${user}" />
+	</bean>
+
+	<bean name="locale" scope="singleton" class="java.util.Locale">
+		<constructor-arg value="en" />
+		<constructor-arg value="US" />
+	</bean>
+
+
+
+</beans>           

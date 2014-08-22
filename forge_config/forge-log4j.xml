@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- log4j configuration used in JUnit task.  Dumps all log levels to System.out -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <param name="Target" value="System.out"/>
+    <param name="Threshold" value="DEBUG"/>
+
+    <layout class="org.apache.log4j.PatternLayout">
+      <!-- The default pattern: Date Priority [Category] Message\n -->
+      <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
+    </layout>
+  </appender>
+  
+  <category name="org.hibernate.SQL">
+      <priority value="OFF"/>
+  </category>
+  
+  <!-- <logger name="com.successfactors.ruleengine.gorule.app.util.SFLock">
+      <level value="DEBUG"/>
+  </logger>
+  <logger name="com.successfactors.ruleengine.gorule.rit">
+      <level value="DEBUG"/>
+  </logger> -->
+   
+  
+  <root>
+    <level value="INFO"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</log4j:configuration>

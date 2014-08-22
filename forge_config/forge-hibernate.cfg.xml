@@ -1,0 +1,40 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+		<property name="hibernate.default_schema">;DEFAULT_SCHEMA;</property>
+        <!-- <property name="hibernate.bytecode.provider">javassit</property> -->
+ 
+		<property name="hibernate.connection.provider_class">com.successfactors.forge.ForgeConnectionProviderBridge</property>
+	    <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+	    <property name="hibernate.connection.pool_size">10</property>
+	    <property name="hibernate.connection.autocommit">false</property>
+	 
+	
+
+		<!-- Envers (for auditing hibernate tables -->
+		<property name="org.jboss.envers.versionsTableSuffix">_AUD</property>
+		<property name="org.jboss.envers.revisionFieldName">rev_number</property>
+		<property name="org.jboss.envers.revisionTypeFieldName">revtype</property>
+
+		<!-- Mapping classes -->
+		<mapping class="com.successfactors.calibration.bean.CalSession"/>
+		<mapping class="com.successfactors.calibration.bean.CalSessionReviewer"/>
+		<mapping class="com.successfactors.calibration.bean.CalSessionSubject"/>
+		<mapping class="com.successfactors.calibration.bean.CalSubjectRank"/>
+		<mapping class="com.successfactors.calibration.bean.CalAuditTrail"/>
+		
+		
+		<mapping class="com.successfactors.calibration.bean.CalTemplate"/>
+		<mapping class="com.successfactors.calibration.bean.CalTemplateReviewer"/>
+		<mapping class="com.successfactors.calibration.bean.CalTemplateFormMap"/>
+		<mapping class="com.successfactors.calibration.bean.CalSessionAttachment"/>
+        <mapping class="com.successfactors.calibration.bean.CalSessionDelfac"/>
+		
+<!-- 		<mapping class="com.successfactors.compensation.bean.CompRatingSourceBean"/> -->
+	</session-factory>
+</hibernate-configuration>

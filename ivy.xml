@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ivy-module version="2.0">
+
+<!--   Module Infomation -->
+  <info branch="trunk" module="au-V4-service" organisation="com.successfactors"/>
+
+  <configurations>
+    <!-- saml.sar and saml2 sar are not needed anymore since the sars are in their own idl now -->
+    <!-- need to separate the dependencies from test before this is fully removed. -->
+    <conf description="Jars to be packaged into the saml.sar" name="saml-lib" visibility="private"/>
+    <conf description="Jars to be packaged into the saml2.sar" name="saml2-lib" visibility="private"/>
+    <conf description="Jars to be packaged into bipublisher.ear" name="bipublisher-ear" visibility="private"/>
+    <conf description="J2EE testing dependencies." name="j2ee-test" visibility="private"/>
+    <conf name="core" visibility="private"/>
+    <conf description="Maven compile dependencies." extends="core" name="compile" visibility="public"/>
+    <conf description="Maven optional dependencies." extends="compile" name="optional" visibility="public"/>
+    <conf description="Maven provided dependencies." name="provided" visibility="public"/>
+    <conf description="Runtime dependencies." extends="compile" name="runtime" visibility="public"/>
+    <conf description="Test dependencies." name="test" visibility="private"/>
+    <conf description="Checkstyle dependencies." name="checkstyle" visibility="private"/>
+    <conf description="Svn dependencies." name="svn" visibility="private"/>
+    <conf description="Jboss 4.0.5 thirdparty lib." name="jboss405" visibility="private"/>
+    <conf description="Command Line Interface Clients" name="cli" visibility="public"/>
+    <conf description="Successfactors Build System" name="build-system" visibility="public"/>
+    <conf description="Default dependency" name="default" visibility="public"/>
+    <conf description="Source files" name="src" visibility="public"/>
+    <conf description="Javadoc" name="javadoc" visibility="public"/>
+    <conf description="UI content to be added to the current war" name="webapp-content" visibility="public"/>
+    <conf description="Jars that should be deployed as sars" name="sar-lib" visibility="public"/>
+    <conf description="Jars that should be added to the ear" name="ear-lib" visibility="public"/>
+    <conf description="Service API layer" name="service-api" visibility="public"/>
+    <conf description="Service Implementation" name="service-lib" visibility="public"/>
+    <conf description="DAO Implementation" name="dao-lib" visibility="public"/>
+    <conf description="Ui java code that goes into the webapp lib" name="ui-lib" visibility="public"/>
+    <conf description="UI content to be added to the current war" extends="ui-lib" name="webapp-lib" visibility="public"/>
+    <conf description="Pom file" name="pom" visibility="private"/>
+  </configurations>
+
+  <publications>
+    <artifact conf="default" name="au-V4-service"/>
+    <artifact conf="src" ext="jar" name="au-V4-service-source" type="source"/>
+  </publications>
+
+  <dependencies>
+
+    <!-- sf.modules.ivy.xml -->
+    <dependency branch="trunk" conf="runtime->build-system" name="dbtools" org="com.successfactors" rev="${com.successfactors.dbtools.version}" transitive="false"/>
+
+
+    <dependency branch="trunk" conf="test->runtime,default" name="idl-dit-service" org="com.successfactors" rev="${com.successfactors.idl-dit.version}"/>
+    <dependency branch="trunk" conf="test->default" name="idl-jsunittools-service" org="com.successfactors" rev="${com.successfactors.idl-jsunittools.version}"/>
+
+    <dependency branch="trunk" conf="compile->default" name="idl-yccommon-service" org="com.successfactors" rev="${com.successfactors.idl-yccommon.version}"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-yccore-service" org="com.successfactors" rev="${com.successfactors.idl-yccore.version}"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-ycbuilder-service" org="com.successfactors" rev="${com.successfactors.idl-ycbuilder.version}"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-ycserver-service" org="com.successfactors" rev="${com.successfactors.idl-ycserver.version}" transitive="false"/>
+    <dependency branch="trunk" conf="compile->default" name="au-youcalc-service" org="com.successfactors" rev="${com.successfactors.au-youcalc.version}" transitive="false"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-appconfig-service" org="com.successfactors" rev="${com.successfactors.idl-appconfig.version}" transitive="false"/>
+
+    <!-- other IDl dependencies -->
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src;javadoc" name="idl-appsec-service" org="com.successfactors" rev="${com.successfactors.idl-appsec.version}"/>
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src;javadoc" name="idl-sfutil-service" org="com.successfactors" rev="${com.successfactors.idl-sfutil.version}"/>
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src;javadoc" name="idl-serialization-service" org="com.successfactors" rev="${com.successfactors.idl-serialization.version}"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-jsfcore-service" org="com.successfactors" rev="${com.successfactors.idl-jsfcore.version}"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-sca-service" org="com.successfactors" rev="${com.successfactors.idl-sca.version}"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-expressioneval-service" org="com.successfactors" rev="${com.successfactors.idl-expressioneval.version}"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-smrf-service" org="com.successfactors" rev="${com.successfactors.idl-smrf.version}"/>
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src;javadoc" name="idl-db-service" org="com.successfactors" rev="${com.successfactors.idl-db.version}"/>
+    <dependency branch="trunk" conf="runtime->default,service-lib,dao-lib;src;javadoc" name="idl-platform-service" org="com.successfactors" rev="${com.successfactors.idl-platform.version}"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-emailengineclient-service" org="com.successfactors" rev="${com.successfactors.idl-emailengineclient.version}"/>
+    <dependency branch="trunk" conf="runtime->default,service-lib,dao-lib" name="idl-geomapping-service" org="com.successfactors" rev="${com.successfactors.idl-geomapping.version}"/>
+    <dependency branch="trunk" conf="runtime->default,service-lib,dao-lib" name="idl-instancesync-service" org="com.successfactors" rev="${com.successfactors.idl-instancesync.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-ajaxservice-service" org="com.successfactors" rev="${com.successfactors.idl-ajaxservice.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-analytics-api-service" org="com.successfactors" rev="${com.successfactors.idl-analytics-api.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-analytics-core-service" org="com.successfactors" rev="${com.successfactors.idl-analytics-core.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-analytics-subjectarea-service" org="com.successfactors" rev="${com.successfactors.idl-analytics-subjectarea.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default,service-lib,dao-lib" name="idl-alert-service" org="com.successfactors" rev="${com.successfactors.idl-alert.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default;src;javadoc" name="idl-entitymapping-service" org="com.successfactors" rev="${com.successfactors.idl-entitymapping.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-restapi-service" org="com.successfactors" rev="${com.successfactors.idl-restapi.version}"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-sfql-service" org="com.successfactors" rev="${com.successfactors.idl-sfql.version}"/>
+
+    <dependency branch="trunk" conf="runtime->default,service-lib" name="idl-oauth-service" org="com.successfactors" rev="${com.successfactors.idl-oauth.version}"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-eengine-service" org="com.successfactors" rev="${com.successfactors.idl-eengine.version}"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-equest-service" org="com.successfactors" rev="${com.successfactors.idl-equest.version}"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-hermes-service" org="com.successfactors" rev="${com.successfactors.idl-hermes.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src;javadoc" name="idl-i18n-service" org="com.successfactors" rev="${com.successfactors.idl-i18n.version}"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-theming-service" org="com.successfactors" rev="${com.successfactors.au-theming.version}" transitive="false"/>
+    <!--<dependency branch="trunk" org="com.successfactors" transitive="false" name="idl-gorule-service" rev="${com.successfactors.idl-gorule.version}" conf="runtime->default,service-lib"/>-->
+    <dependency branch="trunk" conf="runtime->default,service-lib" name="au-ruleengine-gorule" org="com.successfactors" rev="${com.successfactors.au-ruleengine.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-upgradecenter-service" org="com.successfactors" rev="${com.successfactors.au-upgradecenter.version}" transitive="false"/>
+
+    <!--Dependecies for sfapi projects-->
+    <dependency branch="trunk" conf="runtime->default" name="idl-wsapicore-service" org="com.successfactors" rev="${com.successfactors.idl-wsapicore.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default,service-lib,dao-lib" name="idl-wsapi_v1-service" org="com.successfactors" rev="${com.successfactors.idl-wsapi_v1.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-wsapigui-service" org="com.successfactors" rev="${com.successfactors.au-wsapigui.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="test->default" name="au-cogui-service" org="com.successfactors" rev="${com.successfactors.au-cogui.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-resumeparsing-service" org="com.successfactors" rev="${com.successfactors.idl-resumeparsing.version}"/>
+    <dependency branch="trunk" conf="compile->default" name="idl-filetransfer-service" org="com.successfactors" rev="${com.successfactors.idl-filetransfer.version}"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-perflog-service" org="com.successfactors" rev="${com.successfactors.idl-perflog.version}"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-homepage-service" org="com.successfactors" rev="${com.successfactors.au-homepage.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-reorg-service" org="com.successfactors" rev="${com.successfactors.au-reorg.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-cdp-service" org="com.successfactors" rev="${com.successfactors.au-cdp.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-payroll-service" org="com.successfactors" rev="${com.successfactors.au-payroll.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-workstructure-service" org="com.successfactors" rev="${com.successfactors.au-workstructure.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-person-service" org="com.successfactors" rev="${com.successfactors.au-person.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-employment-service" org="com.successfactors" rev="${com.successfactors.au-employment.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default;src" name="au-genericobject-service" org="com.successfactors" rev="${com.successfactors.au-genericobject.version}" transitive="false"/>
+    <dependency branch="trunk" conf="bipublisher-ear,runtime->default" name="au-ruleengine-service" org="com.successfactors" rev="${com.successfactors.au-ruleengine.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-wfcore-service" org="com.successfactors" rev="${com.successfactors.idl-wfcore.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-jdmng-service" org="com.successfactors" rev="${com.successfactors.au-jdmng.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-cache-service" org="com.successfactors" rev="${com.successfactors.idl-cache.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-bizxray-service" org="com.successfactors" rev="${com.successfactors.idl-bizxray.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="idl-extlib-service" org="com.successfactors" rev="${com.successfactors.idl-extlib.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-tiles-service" org="com.successfactors" rev="${com.successfactors.idl-tiles.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-dynresource-service" org="com.successfactors" rev="${com.successfactors.au-dynresource.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-quickcard-service" org="com.successfactors" rev="${com.successfactors.au-quickcard.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="test->default" name="idl-unittest-service" org="com.successfactors" rev="${com.successfactors.idl-unittest.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->service-lib,dao-lib,default;" name="idl-schedulerservice-service" org="com.successfactors" rev="${com.successfactors.idl-schedulerservice.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->service-lib,dao-lib,default" name="au-legacy-service" org="com.successfactors" rev="${com.successfactors.au-legacy.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-onboarding-service" org="com.successfactors" rev="${com.successfactors.au-onboarding.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-user-service" org="com.successfactors" rev="${com.successfactors.au-user.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-legacy-service" org="com.successfactors" rev="${com.successfactors.au-legacy.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="au-xmlconfigurator-service" org="com.successfactors" rev="${com.successfactors.au-xmlconfigurator.version}" transitive="false"/>
+    <dependency branch="trunk" conf="runtime->default" name="idl-datasync-service" org="com.successfactors" rev="${com.successfactors.idl-datasync.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="compile->default" name="idl-orgchartxml-service" org="com.successfactors" rev="${com.successfactors.idl-orgchartxml.version}" transitive="false"/>
+
+    <dependency branch="trunk" conf="runtime->default" name="au-extensionsupport-service" org="com.successfactors" rev="${com.successfactors.au-extensionsupport.version}" transitive="false"/>
+
+    <!-- thirdparty.ivy.xml -->
+    <dependency conf="provided->default" name="j2ee" org="javax.j2ee" rev="${javax.j2ee.j2ee.version}"/>
+
+    <!-- jboss default thirdparty lib -->
+    <!--
+      used by metro and is provided in jboss/deploy/ejb3.deployer
+      directory
+    -->
+    <dependency conf="provided->default" name="jboss-ejb3x" org="jboss" rev="${jboss.jboss-ejb3x.version}"/>
+    <dependency conf="provided->default" name="jboss-common-jdbc-wrapper" org="jboss" rev="${jboss.jboss-common-jdbc-wrapper.version}"/>
+
+    <dependency conf="provided->default" name="j2ee" org="javax.j2ee" rev="${javax.j2ee.j2ee.version}"/>
+    <dependency conf="provided->default" name="jboss-jmx" org="org.jboss" rev="${org.jboss.jboss-jmx.version}"/>
+    <dependency conf="provided->default" name="jbossall-client" org="jboss" rev="${jboss.jbossall-client.version}"/>
+    <!-- jboss default thirdparty on staging and production -->
+    <!-- END: jboss default thirdparty on staging and production -->
+
+    <!-- jboss libraries for compiling jsp -->
+    <dependency conf="test->default" name="jbossweb" org="org.jboss" rev="${org.jboss.jbossweb.version}"/>
+    <dependency conf="test->default" name="jsp-api" org="jboss" rev="${jboss.jsp-api.version}"/>
+
+    <dependency conf="compile->default" name="mail" org="javax.mail" rev="${javax.mail.mail.version}"/>
+    <dependency conf="runtime->default" name="commons-logging" org="commons-logging" rev="${commons-logging.commons-logging.version}"/>
+    <dependency conf="test->default" name="cglib-nodep" org="cglib" rev="${cglib.cglib-nodep.version}"/>
+    <dependency conf="runtime->default" name="quartz-all" org="opensymphony" rev="${opensymphony.quartz-all.version}"/>
+
+    <dependency conf="runtime->default" name="ejb3-persistence" org="org.hibernate" rev="${org.hibernate.ejb3-persistence.version}"/>
+    <dependency conf="provided->default" name="log4j" org="log4j" rev="${log4j.log4j.version}"/>
+
+    <dependency conf="runtime->default" name="hibernate" org="org.hibernate" rev="${org.hibernate.hibernate.version}"/>
+    <dependency conf="runtime->default" name="hibernate-annotations" org="org.hibernate" rev="${org.hibernate.hibernate-annotations.version}"/>
+    <dependency conf="runtime->default" name="hibernate-commons-annotations" org="org.hibernate" rev="${org.hibernate.hibernate-commons-annotations.version}"/>
+    <dependency conf="runtime->default" name="hibernate-entitymanager" org="org.hibernate" rev="${org.hibernate.hibernate-entitymanager.version}"/>
+    <dependency conf="runtime->default" name="hibernate-validator" org="org.hibernate" rev="${org.hibernate.hibernate-validator.version}"/>
+
+    <dependency conf="runtime->default" name="ehcache-core" org="net.sf.ehcache" rev="${net.sf.ehcache.ehcache-core.version}"/>
+
+    <dependency conf="runtime->default" name="bcel" org="bcel" rev="${bcel.bcel.version}"/>
+    <dependency conf="runtime->default" name="jasperreports" org="jasperreports" rev="${jasperreports.jasperreports.version}"/>
+
+    <dependency conf="runtime,test->default" name="jstl" org="javax.servlet" rev="${javax.servlet.jstl.version}"/>
+
+    <dependency conf="runtime->default" name="ojdbc6" org="com.oracle" rev="${com.oracle.ojdbc6.version}"/>
+
+    <dependency conf="runtime->default" name="standard" org="taglibs" rev="${taglibs.standard.version}"/>
+    <dependency conf="runtime->default" name="xstream" org="com.thoughtworks.xstream" rev="${com.thoughtworks.xstream.xstream.version}"/>
+
+    <dependency conf="runtime->default" name="nekohtml" org="net.sourceforge.nekohtml" rev="${net.sourceforge.nekohtml.nekohtml.version}"/>
+    <dependency conf="runtime->default" name="pdfbox" org="pdfbox" rev="${pdfbox.pdfbox.version}"/>
+    <dependency conf="runtime->default" name="fontbox" org="org.fontbox" rev="${org.fontbox.fontbox.version}"/>
+    <dependency conf="runtime->default" name="asm" org="asm" rev="${asm.asm.version}"/>
+
+    <dependency conf="runtime->default" name="velocity" org="velocity" rev="${velocity.velocity.version}"/>
+    <dependency conf="runtime->default" name="velocity-dep" org="velocity" rev="${velocity.velocity-dep.version}"/>
+
+    <!-- axis 1.2.1 dependencies -->
+    <dependency conf="runtime->default" name="xmlsec" org="xml-security" rev="${xml-security.xmlsec.version}"/>
+    <dependency conf="runtime->default" name="opensaml-axis" org="org.opensaml" rev="${org.opensaml.opensaml-axis.version}"/>
+    <dependency conf="runtime->default" name="wsdl4j" org="wsdl4j" rev="${wsdl4j.wsdl4j.version}"/>
+
+    <!-- apache commons -->
+    <dependency conf="runtime->default" name="commons-codec" org="commons-codec" rev="${commons-codec.commons-codec.version}"/>
+    <dependency conf="runtime->default" name="commons-discovery" org="commons-discovery" rev="${commons-discovery.commons-discovery.version}"/>
+    <dependency conf="runtime->default" name="commons-fileupload" org="commons-fileupload" rev="${commons-fileupload.commons-fileupload.version}"/>
+    <dependency conf="runtime->default" name="commons-net" org="commons-net" rev="${commons-net.commons-net.version}"/>
+    <dependency conf="runtime->default" name="commons-io" org="commons-io" rev="${commons-io.commons-io.version}"/>
+    <dependency conf="runtime->default" name="commons-cli" org="commons-cli" rev="${commons-cli.commons-cli.version}"/>
+    <dependency conf="runtime->default" name="commons-dbcp" org="commons-dbcp" rev="${commons-dbcp.commons-dbcp.version}"/>
+    <dependency conf="runtime->default" name="commons-pool" org="commons-pool" rev="${commons-pool.commons-pool.version}"/>
+    <dependency conf="runtime->default" name="commons-jxpath" org="commons-jxpath" rev="${commons-jxpath.commons-jxpath.version}"/>
+    <dependency conf="runtime->default" name="commons-beanutils" org="commons-beanutils" rev="${commons-beanutils.commons-beanutils.version}"/>
+    <dependency conf="runtime->default" name="commons-collections" org="commons-collections" rev="${commons-collections.commons-collections.version}"/>
+    <dependency conf="runtime->default" name="commons-digester" org="commons-digester" rev="${commons-digester.commons-digester.version}"/>
+    <dependency conf="runtime->default" name="commons-el" org="commons-el" rev="${commons-el.commons-el.version}"/>
+    <dependency conf="runtime->default" name="commons-lang" org="commons-lang" rev="${commons-lang.commons-lang.version}"/>
+    <dependency conf="runtime->default" name="commons-validator" org="commons-validator" rev="${commons-validator.commons-validator.version}"/>
+
+
+    <dependency conf="runtime->default" name="ExcelWriter" org="com.softartisans" rev="${com.softartisans.ExcelWriter.version}"/>
+    <dependency conf="runtime->default" name="ExcelWriter-License" org="com.softartisans" rev="${com.softartisans.ExcelWriter-License.version}"/>
+
+    <dependency conf="runtime->default" name="soap" org="soap" rev="${soap.soap.version}"/>
+    <dependency conf="runtime->default" name="bsf" org="bsf" rev="${bsf.bsf.version}"/>
+    <dependency conf="runtime->default" name="aperture" org="aperture" rev="${aperture.aperture.version}"/>
+    <dependency conf="runtime->default" name="rdf2go.api" org="rdf2go" rev="${rdf2go.rdf2go.api.version}"/>
+    <dependency conf="runtime->default" name="ical4j" org="ical4j" rev="${ical4j.ical4j.version}"/>
+    <dependency conf="runtime->default" name="avalon-framework" org="avalon-framework" rev="${avalon-framework.avalon-framework.version}"/>
+    <dependency conf="runtime,saml-lib->default" name="slf4j-api" org="org.slf4j" rev="${org.slf4j.slf4j-api.version}"/>
+    <dependency conf="runtime,saml-lib->default" name="slf4j-log4j12" org="org.slf4j" rev="${org.slf4j.slf4j-log4j12.version}"/>
+    <dependency conf="runtime->default" name="flashgateway" org="flashgateway" rev="${flashgateway.flashgateway.version}"/>
+    <dependency conf="runtime->default" name="universalchardet" org="org.mozilla" rev="${org.mozilla.universalchardet.version}"/>
+    <dependency conf="runtime->default" name="jsqlparser" org="jsqlparser" rev="${jsqlparser.jsqlparser.version}"/>
+    <dependency conf="runtime->default" name="bcpg" org="bouncycastle" rev="${bouncycastle.bcpg.version}"/>
+    <dependency conf="runtime->default" name="bcprov" org="bouncycastle" rev="${bouncycastle.bcprov.version}"/>
+    <dependency conf="runtime->default" name="authapi" org="rsa-authapi" rev="${rsa-authapi.authapi.version}"/>
+    <dependency conf="runtime->default" name="itext" org="com.lowagie" rev="${com.lowagie.itext.version}"/>
+    <dependency conf="provided,test->default" name="jsf-api" org="javax.faces" rev="${javax.faces.jsf-api.version}"/>
+    <dependency conf="provided->default" name="jsf-impl" org="javax.faces" rev="${javax.faces.jsf-impl.version}"/>
+
+<!-- Check if it even gets loaded -->
+    <dependency conf="provided->default" name="el-api" org="javax.el" rev="${javax.el.el-api.version}"/>
+    <dependency conf="runtime->default" name="el-impl" org="com.sun" rev="${com.sun.el-impl.version}"/>
+    <dependency conf="runtime->default" name="jsf-facelets" org="com.sun" rev="${com.sun.jsf-facelets.version}"/>
+<!-- Check if it even gets loaded (END)-->
+
+
+    <dependency conf="runtime->default" name="pd4ml" org="pd4ml" rev="${pd4ml.pd4ml.version}"/>
+    <dependency conf="runtime->default" name="pd4ml_tl" org="pd4ml" rev="${pd4ml.pd4ml_tl.version}"/>
+    <dependency conf="runtime->default" name="ss_css2" org="pd4ml" rev="${pd4ml.ss_css2.version}"/>
+    <dependency conf="runtime->default" name="RapidSpellWeb" org="keyoti" rev="${keyoti.RapidSpellWeb.version}"/>
+    <dependency conf="runtime->default" name="RapidSpellMDict" org="keyoti" rev="${keyoti.RapidSpellMDict.version}"/>
+    <dependency conf="runtime->default" name="icu4j" org="com.ibm" rev="${com.ibm.icu4j.version}"/>
+    <dependency conf="runtime->default" name="Aspose.Cells" org="aspose" rev="${aspose.Aspose.Cells.version}"/>
+    <dependency conf="runtime->default" name="wss4j" org="xfire" rev="${xfire.wss4j.version}"/>
+
+    <dependency conf="runtime->default" name="axis-ant" org="axis" rev="${axis.axis-ant.version}"/>
+    <dependency conf="runtime->default" name="axis" org="axis" rev="${axis.axis.version}"/>
+    <dependency conf="runtime->default" name="xpp3" org="xpp3" rev="${xpp3.xpp3.version}"/>
+
+    <dependency conf="runtime->default" name="jdom" org="jdom" rev="${jdom.jdom.version}"/>
+    <dependency conf="runtime->default" name="json" org="json" rev="${json.json.version}"/>
+
+
+
+    <!--     SF patched third party libs -->
+    <dependency conf="runtime->default" name="commons-jexl" org="commons-jexl" rev="${commons-jexl.commons-jexl.version}"/>
+    <dependency conf="runtime->default" name="poi" org="poi" rev="${poi.poi.version}"/>
+    <dependency conf="runtime->default" name="poi-scratchpad" org="poi" rev="${poi.poi-scratchpad.version}"/>
+
+    <!--     unknown version third party jars -->
+    <dependency conf="runtime->default" name="azcheck" org="azcheck" rev="${azcheck.azcheck.version}"/>
+    <dependency conf="runtime->default" name="batik" org="batik" rev="${batik.batik.version}"/>
+    <dependency conf="runtime->default" name="flex-bootstrap" org="flex" rev="${flex.flex-bootstrap.version}"/>
+    <dependency conf="runtime->default" name="fop" org="fop" rev="${fop.fop.version}"/>
+    <dependency conf="runtime->default" name="jargp" org="jargp" rev="${jargp.jargp.version}"/>
+    <dependency conf="runtime->default" branch="trunk" name="idl-skillsoft-service" org="com.successfactors" rev="${com.successfactors.idl-skillsoft.version}"/>
+    <dependency conf="runtime->default" name="en" org="spellcheck" rev="${spellcheck.en.version}">
+      <artifact conf="runtime" name="en" type="dar"/>
+    </dependency>
+    <dependency conf="runtime->default" name="de" org="spellcheck" rev="${spellcheck.de.version}">
+      <artifact conf="runtime" name="de" type="dar"/>
+    </dependency>
+    <dependency conf="runtime->default" name="es" org="spellcheck" rev="${spellcheck.es.version}">
+      <artifact conf="runtime" name="es" type="dar"/>
+    </dependency>
+    <dependency conf="runtime->default" name="fr" org="spellcheck" rev="${spellcheck.fr.version}">
+      <artifact conf="runtime" name="fr" type="dar"/>
+    </dependency>
+    <dependency conf="runtime->default" name="xalan" org="xalan" rev="${xalan.xalan.version}"/>
+    <dependency conf="test->default" name="serializer" org="xalan" rev="${xalan.serializer.version}"/>
+    <dependency conf="provided->default" name="xml-apis" org="xml-apis" rev="${xml-apis.xml-apis.version}"/>
+
+
+    <dependency conf="bipublisher-ear,test->default" name="xdocore" org="oracle.bi-publisher" rev="${oracle.bi-publisher.xdocore.version}"/>
+    <dependency conf="bipublisher-ear->default" name="versioninfo" org="oracle.bi-publisher" rev="${oracle.bi-publisher.versioninfo.version}"/>
+    <dependency conf="bipublisher-ear->default" name="xdoparser" org="oracle.bi-publisher" rev="${oracle.bi-publisher.xdoparser.version}"/>
+    <dependency conf="bipublisher-ear->default" name="xmlparserv2-904" org="oracle.bi-publisher" rev="${oracle.bi-publisher.xmlparserv2-904.version}"/>
+    <dependency conf="test,bipublisher-ear->default" name="i18nAPI_v3" org="oracle.bi-publisher" rev="${oracle.bi-publisher.i18nAPI_v3.version}"/>
+    <dependency conf="bipublisher-ear->default" name="bipres" org="oracle.bi-publisher" rev="${oracle.bi-publisher.bipres.version}"/>
+    <dependency conf="bipublisher-ear->default" name="bicmn" org="oracle.bi-publisher" rev="${oracle.bi-publisher.bicmn.version}"/>
+    <dependency conf="bipublisher-ear->default" name="jewt4" org="oracle.bi-publisher" rev="${oracle.bi-publisher.jewt4.version}"/>
+    <dependency conf="bipublisher-ear->default" name="share" org="oracle.bi-publisher" rev="${oracle.bi-publisher.share.version}"/>
+
+    <dependency conf="compile,checkstyle->default" name="antlr" org="antlr" rev="${antlr.antlr.version}"/>
+    <dependency conf="checkstyle->default" name="checkstyle" org="checkstyle" rev="${checkstyle.checkstyle.version}"/>
+    <!-- checkstyle deps -->
+    <dependency conf="checkstyle->default" name="commons-beanutils-core" org="commons-beanutils-core" rev="${commons-beanutils-core.commons-beanutils-core.version}"/>
+    <dependency conf="checkstyle->default" name="commons-cli" org="commons-cli" rev="${commons-cli.commons-cli.version}"/>
+    <dependency conf="checkstyle->default" name="commons-logging" org="commons-logging" rev="${commons-logging.commons-logging.version}"/>
+    <dependency conf="checkstyle->default" name="google-collections" org="com.google.collections" rev="${com.google.collections.google-collections.version}"/>
+
+    <dependency conf="test->default" name="httpunit" org="httpunit" rev="${httpunit.httpunit.version}"/>
+
+    <dependency conf="test->default" name="testng" org="org.testng" rev="${org.testng.testng.version}"/>
+
+    <dependency conf="test->default" name="juel" org="de.odysseus.juel" rev="${de.odysseus.juel.juel.version}"/>
+
+    <dependency conf="test->default" name="mockito-core" org="org.mockito" rev="${org.mockito.mockito-core.version}"/>
+    <dependency conf="test->default" name="jmock" org="org.jmock" rev="${org.jmock.jmock.version}"/>
+    <dependency conf="test->default" name="jmock-junit4" org="org.jmock" rev="${org.jmock.jmock-junit4.version}"/>
+    <dependency conf="test->default" name="jmock-junit3" org="org.jmock" rev="${org.jmock.jmock-junit3.version}"/>
+    <dependency conf="test->default" name="jmock-legacy" org="org.jmock" rev="${org.jmock.jmock-legacy.version}"/>
+    <dependency conf="test->default" name="hamcrest-core" org="org.hamcrest" rev="${org.hamcrest.hamcrest-core.version}"/>
+    <dependency conf="test->default" name="hamcrest-library" org="org.hamcrest" rev="${org.hamcrest.hamcrest-library.version}"/>
+    <dependency conf="test->default" name="objenesis" org="org.objenesis" rev="${org.objenesis.objenesis.version}"/>
+    <dependency conf="test->default" name="mockobjects-jdk1.3-j2ee1.3" org="mockobjects" rev="${mockobjects.mockobjects-jdk1.3-j2ee1.3.version}"/>
+    <dependency conf="test->default" name="mockobjects-core" org="mockobjects" rev="${mockobjects.mockobjects-core.version}"/>
+
+    <dependency conf="test->default" name="unitils" org="org.unitils" rev="${org.unitils.unitils.version}"/>
+    <dependency conf="test->default" name="dbunit" org="org.dbunit" rev="${org.dbunit.dbunit.version}"/>
+
+    <dependency conf="test->default" name="dom4j" org="dom4j" rev="${dom4j.dom4j.version}"/>
+
+    <dependency conf="provided->default" name="backport-util-concurrent" org="edu.emory" rev="${edu.emory.backport-util-concurrent.version}"/>
+
+    <dependency conf="bipublisher-ear,runtime->default" name="jboss-seam-custom" org="org.jboss" rev="${org.jboss.jboss-seam-custom.version}"/>
+
+    <!-- saml jars : not needed anymore since saml.sar is it's own idl now -->
+    <dependency conf="test,saml-lib->default" name="jython" org="org.python" rev="${org.python.jython.version}"/>
+    <dependency conf="saml-lib->default" name="obeclient-api" org="org.obe" rev="${org.obe.obeclient-api.version}"/>
+    <dependency conf="provided,saml-lib->default" name="obeclient" org="org.obe" rev="${org.obe.obeclient.version}"/>
+    <dependency conf="saml-lib->default" name="obeconfig" org="org.obe" rev="${org.obe.obeconfig.version}"/>
+    <dependency conf="saml-lib->default" name="obecore" org="org.obe" rev="${org.obe.obecore.version}"/>
+    <dependency conf="provided,saml-lib->default" name="obeengine" org="org.obe" rev="${org.obe.obeengine.version}"/>
+    <dependency conf="saml-lib->default" name="sourceid-bsf" org="com.ibm" rev="${com.ibm.sourceid-bsf.version}"/>
+    <dependency conf="provided,saml-lib->default" name="sourceid-infrastructure-classes" org="org.sourceid" rev="${org.sourceid.sourceid-infrastructure-classes.version}"/>
+    <dependency conf="saml-lib->default" name="sourceid-infrastructure-resources" org="org.sourceid" rev="${org.sourceid.sourceid-infrastructure-resources.version}"/>
+    <dependency conf="provided,test,saml-lib->default" name="sourceid-infrastructure-xml" org="org.sourceid" rev="${org.sourceid.sourceid-infrastructure-xml.version}"/>
+    <dependency conf="provided,saml-lib->default" name="sourceid-saml-classes-custom" org="org.sourceid" rev="${org.sourceid.sourceid-saml-classes-custom.version}"/>
+    <dependency conf="saml-lib->default" name="sourceid-saml-resources" org="org.sourceid" rev="${org.sourceid.sourceid-saml-resources.version}"/>
+    <dependency conf="saml-lib->default" name="sourceid-saml-servlets" org="org.sourceid" rev="${org.sourceid.sourceid-saml-servlets.version}"/>
+    <dependency conf="saml-lib->default" name="sourceid-saml-xml" org="org.sourceid" rev="${org.sourceid.sourceid-saml-xml.version}"/>
+    <dependency conf="saml-lib->default" name="wfmc" org="org.wfmc" rev="${org.wfmc.wfmc.version}"/>
+    <dependency conf="provided,test,saml-lib->default" name="xbean" org="org.apache" rev="${org.apache.xbean.version}"/>
+    <dependency conf="saml-lib->default" name="castor-xml" org="org.exolab" rev="${org.exolab.castor-xml.version}"/>
+    <dependency conf="provided,saml-lib->default" name="TD_Partner" org="ca.tdbank" rev="${ca.tdbank.TD_Partner.version}"/>
+    <!-- saml2 jars : not needed anymore since saml2.sar is it's own idl now -->
+    <dependency conf="saml2-lib->default" name="oiosaml" org="dk.itst" rev="${dk.itst.oiosaml.version}"/>
+    <!-- This is hard-coded b/c it is only for compilation, and is provided at runtime by saml2-lib -->
+    <!--   The runtime jar is opensaml v1.1 for axis 1.2 (but nothing is compiled against it) -->
+    <dependency conf="provided,saml2-lib->default" name="opensaml" org="org.opensaml" rev="${org.opensaml.opensaml.version}"/>
+    <dependency conf="saml2-lib->default" name="xmltooling" org="org.opensaml" rev="${org.opensaml.xmltooling.version}"/>
+    <dependency conf="saml2-lib->default" name="esapi" org="org.owasp.esapi" rev="${org.owasp.esapi.esapi.version}"/>
+    <dependency conf="saml2-lib->default" name="commons-lang" org="org.apache" rev="${org.apache.commons-lang.version}"/>
+
+    <dependency conf="saml2-lib->default" name="velocity" org="org.apache" rev="${org.apache.velocity.version}"/>
+
+    <dependency conf="saml2-lib->default" name="commons-beanutils-core" org="org.apache" rev="${org.apache.commons-beanutils-core.version}"/>
+    <dependency conf="saml2-lib->default" name="commons-configuration" org="org.apache" rev="${org.apache.commons-configuration.version}"/>
+    <dependency conf="saml2-lib->default" name="joda-time" org="org.joda" rev="${org.joda.joda-time.version}"/>
+    <dependency conf="saml2-lib->default" name="not-yet-commons-ssl" org="org.apache" rev="${org.apache.not-yet-commons-ssl.version}"/>
+    <dependency conf="saml2-lib->default" name="openws-custom" org="org.opensaml" rev="${org.opensaml.openws-custom.version}"/>
+    <dependency conf="saml2-lib->default" name="xml-resolver" org="org.apache" rev="${org.apache.xml-resolver.version}"/>
+
+    <!-- RSS and Atom feeds tools -->
+    <dependency conf="runtime->default" name="rome" org="rome" rev="${rome.rome.version}"/>
+
+    <!-- added for Youcalc ENGPROC-44 -->
+    <dependency conf="runtime->default" name="axiom-impl" org="org.apache.axiom" rev="${org.apache.axiom.axiom-impl.version}"/>
+
+    <!-- ENGPROC-42 used for twitter integration -->
+    <dependency conf="runtime->default" name="signpost-core" org="oauth.signpost" rev="${oauth.signpost.signpost-core.version}"/>
+    <dependency conf="runtime->default" name="signpost-commonshttp4" org="oauth.signpost" rev="${oauth.signpost.signpost-commonshttp4.version}"/>
+
+    <!-- apache http clienti ENGPROC-43 -->
+    <dependency conf="runtime->default" name="httpcore" org="org.apache.httpcomponents" rev="${org.apache.httpcomponents.httpcore.version}"/>
+    <dependency conf="runtime->default" name="httpclient" org="org.apache.httpcomponents" rev="${org.apache.httpcomponents.httpclient.version}"/>
+    <!-- apache http client mime part ENGPROC-87 -->
+    <dependency conf="runtime->default" name="httpmime" org="org.apache.httpcomponents" rev="${org.apache.httpcomponents.httpmime.version}"/>
+    <!-- ENGPROC-89 Mime depends on james jar. -->
+    <dependency conf="runtime->default" name="mine4j" org="org.apache.james" rev="${org.apache.james.mine4j.version}"/>
+
+    <!--
+      custom version of 1.1.3 tomawhawk, patched in 1.1.6 of
+      ReducedHTMLParser EMP-2430
+    -->
+    <dependency conf="runtime->default" name="dwr" org="org.directwebremoting" rev="${org.directwebremoting.dwr.version}"/>
+
+    <!-- YouCalc libraries -->
+    <dependency conf="runtime->default" name="axis2-kernel" org="org.apache" rev="${org.apache.axis2-kernel.version}"/>
+    <dependency conf="runtime->default" name="math" org="org.apache" rev="${org.apache.math.version}"/>
+    <dependency conf="runtime->default" name="xmlschema" org="org.apache" rev="${org.apache.xmlschema.version}"/>
+    <dependency conf="runtime->default" name="jcommon" org="org.jfree" rev="${org.jfree.jcommon.version}"/>
+    <dependency conf="runtime->default" name="jfreechart" org="org.jfree" rev="${org.jfree.jfreechart.version}"/>
+    <dependency conf="runtime->default" name="httpclient3" org="org.apache.httpcomponents" rev="${org.apache.httpcomponents.httpclient3.version}"/>
+
+
+    <dependency conf="provided->default" name="webservices-rt" org="metro" rev="${metro.webservices-rt.version}"/>
+    <dependency conf="provided->default" name="webservices-api" org="metro" rev="${metro.webservices-api.version}"/>
+    <dependency conf="runtime->default" name="memcached" org="spy" rev="${spy.memcached.version}"/>
+
+    <dependency conf="provided->default" name="webservices-tools" org="metro" rev="${metro.webservices-tools.version}"/>
+    <!--siemens webservice needed by transcript -->
+    <dependency conf="runtime->default" name="siemens-transcript-ws" org="com.siemens" rev="${com.siemens.siemens-transcript-ws.version}"/>
+
+    <!-- REST -->
+    <dependency conf="runtime->default" name="jersey-core" org="com.sun.jersey" rev="${com.sun.jersey.jersey-core.version}"/>
+    <dependency conf="runtime->default" name="jersey-server" org="com.sun.jersey" rev="${com.sun.jersey.jersey-server.version}"/>
+    <dependency conf="runtime->default" name="jersey-client" org="com.sun.jersey" rev="${com.sun.jersey.jersey-client.version}"/>
+    <dependency conf="runtime->default" name="jersey-multipart" org="com.sun.jersey.contribs" rev="${com.sun.jersey.contribs.jersey-multipart.version}"/>
+    <dependency conf="runtime->default" name="jackson-core-asl" org="org.codehaus.jackson" rev="${org.codehaus.jackson.jackson-core-asl.version}"/>
+    <dependency conf="runtime->default" name="jackson-jaxrs" org="org.codehaus.jackson" rev="${org.codehaus.jackson.jackson-jaxrs.version}"/>
+    <dependency conf="runtime->default" name="jackson-mapper-asl" org="org.codehaus.jackson" rev="${org.codehaus.jackson.jackson-mapper-asl.version}"/>
+
+    <dependency conf="runtime->default" name="jackson-annotations" org="com.fasterxml.jackson" rev="${com.fasterxml.jackson.jackson-annotations.version}"/>
+    <dependency conf="runtime->default" name="jackson-core" org="com.fasterxml.jackson" rev="${com.fasterxml.jackson.jackson-core.version}"/>
+    <dependency conf="runtime->default" name="jackson-databind" org="com.fasterxml.jackson" rev="${com.fasterxml.jackson.jackson-databind.version}"/>
+
+    <dependency conf="runtime->default" name="tika-core" org="org.apache.tika" rev="${org.apache.tika.tika-core.version}"/>
+    <dependency conf="runtime->default" name="tika-parsers" org="org.apache.tika" rev="${org.apache.tika.tika-parsers.version}"/>
+    <dependency conf="runtime->default" name="commons-compress" org="commons-compress" rev="${commons-compress.commons-compress.version}"/>
+    <dependency conf="runtime->default" name="jempbox" org="org.apache.pdfbox" rev="${org.apache.pdfbox.jempbox.version}"/>
+    <dependency conf="runtime->default" name="poi-ooxml" org="poi" rev="${poi.poi-ooxml.version}"/>
+    <dependency conf="runtime->default" name="poi-ooxml-schemas" org="poi" rev="${poi.poi-ooxml-schemas.version}"/>
+    <dependency conf="runtime->default" name="tagsoup" org="org.ccil.cowan.tagsoup" rev="${org.ccil.cowan.tagsoup.tagsoup.version}"/>
+    <dependency conf="runtime->default" name="metadata-extractor" org="com.drewnoakes" rev="${com.drewnoakes.metadata-extractor.version}"/>
+
+    <!-- Analytics dependency -->
+    <dependency conf="runtime->default" name="jtidy" org="org.w3c.tidy" rev="${org.w3c.tidy.jtidy.version}"/>
+
+    <!-- open office conversion jars -->
+    <dependency conf="runtime->default" name="jodconverter" org="org.openoffice" rev="${org.openoffice.jodconverter.version}"/>
+    <dependency conf="runtime->default" name="jodconverter-cli" org="org.openoffice" rev="${org.openoffice.jodconverter-cli.version}"/>
+    <dependency conf="runtime->default" name="juh" org="org.openoffice" rev="${org.openoffice.juh.version}"/>
+    <dependency conf="runtime->default" name="jurt" org="org.openoffice" rev="${org.openoffice.jurt.version}"/>
+    <dependency conf="runtime->default" name="ridl" org="org.openoffice" rev="${org.openoffice.ridl.version}"/>
+    <dependency conf="runtime->default" name="unoil" org="org.openoffice" rev="${org.openoffice.unoil.version}"/>
+
+    <!-- thirdparty lib for sftp function -->
+    <dependency conf="runtime->default" name="jsch" org="com.jcraft" rev="${com.jcraft.jsch.version}"/>
+
+    <!-- This matches the JBoss 4.3 version and isn't provided out of the box. -->
+    <dependency conf="runtime->default" name="jaxb1-impl" org="com.sun" rev="${com.sun.jaxb1-impl.version}"/>
+
+    <!-- keep the following JAXB1 jars since other jars depend on them -->
+    <dependency conf="provided->default" name="xercesImpl" org="com.sun" rev="${com.sun.xercesImpl.version}"/>
+<!-- Major PITA -->
+
+    <!-- lucene -->
+    <dependency conf="runtime->default" name="lucene-core" org="org.apache" rev="${org.apache.lucene-core.version}"/>
+    <dependency conf="runtime->default" name="lucene-spatial" org="lucene-spatial" rev="${lucene-spatial.lucene-spatial.version}"/>
+
+    <dependency conf="runtime->default" name="ajaxdivtag" org="com.cj" rev="${com.cj.ajaxdivtag.version}"/>
+    <dependency conf="runtime->default" name="logkit" org="org.apache" rev="${org.apache.logkit.version}"/>
+    <dependency conf="runtime->default" name="ostermillerutils_for_java_1_4" org="com.ostermiller" rev="${com.ostermiller.ostermillerutils_for_java_1_4.version}"/>
+    <dependency conf="runtime->default" name="pja" org="com.eteks" rev="${com.eteks.pja.version}"/>
+    <dependency conf="runtime->default" name="cybsclients" org="com.cybersource" rev="${com.cybersource.cybsclients.version}"/>
+    <dependency conf="runtime->default" name="cybssecurity" org="com.cybersource" rev="${com.cybersource.cybssecurity.version}"/>
+    <dependency conf="runtime->default" name="jakarta-oro" org="org.apache" rev="${org.apache.jakarta-oro.version}"/>
+    <dependency conf="runtime->default" name="struts" org="org.apache" rev="${org.apache.struts.version}"/>
+    <dependency conf="runtime->default" name="envers-custom" org="org.jboss" rev="${org.jboss.envers-custom.version}"/>
+    <dependency conf="runtime->default" name="js" org="org.mozilla" rev="${org.mozilla.js.version}"/>
+    <dependency conf="runtime->default" name="jxl" org="jexcelapi" rev="${jexcelapi.jxl.version}"/>
+
+    <!-- spring framework to support asynchronous process framework -->
+    <dependency conf="runtime->default" name="spring-beans" org="org.springframework" rev="${org.springframework.spring-beans.version}"/>
+    <dependency conf="runtime->default" name="spring-context" org="org.springframework" rev="${org.springframework.spring-context.version}"/>
+    <dependency conf="runtime->default" name="spring-context-support" org="org.springframework" rev="${org.springframework.spring-context-support.version}"/>
+    <dependency conf="runtime->default" name="spring-core" org="org.springframework" rev="${org.springframework.spring-core.version}"/>
+    <dependency conf="runtime->default" name="spring-transaction" org="org.springframework" rev="${org.springframework.spring-transaction.version}"/>
+
+    <!-- solr 3.3 libs -->
+    <dependency conf="runtime->default" name="core" org="org.apache.solr" rev="${org.apache.solr.core.version}"/>
+    <dependency conf="runtime->default" name="solrj" org="org.apache.solr" rev="${org.apache.solr.solrj.version}"/>
+    <dependency conf="runtime->default" name="jsonic" org="net.arnx" rev="${net.arnx.jsonic.version}"/>
+    <dependency conf="runtime->default" name="langdetect" org="com.cybozu.labs" rev="${com.cybozu.labs.langdetect.version}"/>
+    <dependency conf="runtime->default" name="st-langid" org="sematext" rev="${sematext.st-langid.version}"/>
+
+    <!-- hornetq 2.6.1 -->
+    <dependency conf="runtime->default" name="jboss-logging" org="org.jboss.logging" rev="${org.jboss.logging.jboss-logging.version}"/>
+    <dependency conf="runtime->default" name="hornetq-commons" org="org.hornetq" rev="${org.hornetq.hornetq-commons.version}"/>
+    <dependency conf="runtime->default" name="hornetq-core-client" org="org.hornetq" rev="${org.hornetq.hornetq-core-client.version}"/>
+    <dependency conf="runtime->default" name="netty" org="org.jboss" rev="${org.jboss.netty.version}"/>
+
+    <!-- youcalc thirdparty libs needed for ftp and csv -->
+    <dependency conf="runtime->default" name="ftp4j" org="it.sauronsoftware" rev="${it.sauronsoftware.ftp4j.version}"/>
+    <dependency conf="runtime->default" name="opencsv" org="au.com.bytecode" rev="${au.com.bytecode.opencsv.version}"/>
+
+    <dependency conf="runtime->default" name="guava" org="com.google.guava" rev="${com.google.guava.guava.version}"/>
+
+    <dependency conf="runtime->default" name="boilerpipe" org="boilerpipe" rev="${boilerpipe.boilerpipe.version}"/>
+
+    <dependency conf="runtime->default" name="recaptcha4j" org="net.tanesha.recaptcha4j" rev="${net.tanesha.recaptcha4j.recaptcha4j.version}"/>
+
+    <dependency conf="test->default" name="jmock" org="org.jmock" rev="${org.jmock.jmock.version}"/>
+    <dependency conf="test->default" name="jmock-junit4" org="org.jmock" rev="${org.jmock.jmock-junit4.version}"/>
+    <dependency conf="test->default" name="jmock-junit3" org="org.jmock" rev="${org.jmock.jmock-junit3.version}"/>
+    <dependency conf="test->default" name="jmock-legacy" org="org.jmock" rev="${org.jmock.jmock-legacy.version}"/>
+    <dependency conf="test->default" name="javassist" org="jboss" rev="${jboss.javassist.version}"/>
+    <dependency conf="j2ee-test->default" name="jmock" org="jmock" rev="${jmock.jmock.version}"/>
+    <dependency conf="j2ee-test->default" name="jmock-cglib" org="jmock" rev="${jmock.jmock-cglib.version}"/>
+    <dependency conf="j2ee-test->default" name="mockejb" org="org.mockejb" rev="${org.mockejb.mockejb.version}"/>
+    <dependency conf="j2ee-test->default" name="strutstest" org="strutstest" rev="${strutstest.strutstest.version}"/>
+    <dependency conf="test->default" name="just-crosscheck" org="just-crosscheck" rev="${just-crosscheck.just-crosscheck.version}"/>
+    <dependency conf="test->default" name="fontbox" org="org.fontbox" rev="${org.fontbox.fontbox.version}"/>
+    <dependency conf="test->default" name="xmlunit" org="org.custommonkey" rev="${org.custommonkey.xmlunit.version}"/>
+    <dependency conf="test->default" name="junitperf" org="junitperf" rev="${junitperf.junitperf.version}"/>
+    <dependency conf="test->default" name="junit" org="junit" rev="${junit.junit.version}"/>
+    <dependency conf="test->default" name="facelets-test" org="com.sun" rev="${com.sun.facelets-test.version}"/>
+    <dependency conf="test->default" name="ant" org="org.apache.ant" rev="${org.apache.ant.ant.version}"/>
+    <dependency branch="trunk" conf="test->default" name="au-businessconfig-service" org="com.successfactors" rev="${com.successfactors.au-businessconfig.version}" transitive="false"/>
+<dependency branch="trunk" conf="compile->default" name="idl-sfedis-service" org="com.successfactors" rev="${com.successfactors.idl-sfedis.version}"/>
+
+    <dependency conf="runtime->default" name="semetric" org="semetric" rev="${semetric.semetric.version}"/>
+
+    <!-- this version MUST be hardcoded as the same library (org.name) is used
+         elsewhere and requires a later version. The tests must use the stated
+         version.
+    -->
+    <dependency conf="test->default" name="pdfbox" org="pdfbox" rev="0.7.3"/>
+    
+    <!-- forge -->
+    <dependency branch="trunk" org="com.successfactors" transitive="false" name="idl-forge-service" rev="${com.successfactors.idl-forge.version}" conf="test->default" />
+    <dependency conf="test->default" name="spring-asm" org="org.springframework" rev="3.0.5.RELEASE"/>
+    <dependency conf="test->default" name="spring-expression" org="org.springframework" rev="3.0.5.RELEASE"/>
+
+    <!-- JSR 303 -->
+    <dependency conf="runtime->default" name="validation-api" org="javax.validation" rev="${javax.validation.validation-api.version}"/>
+    <dependency conf="runtime->default" name="hibernate-validator" org="org.hibernate.validator" rev="${org.hibernate.validator.hibernate-validator.version}"/>
+    <dependency conf="runtime->default" name="hibernate-validator-annotation-processor" org="org.hibernate.validator" rev="${org.hibernate.validator.hibernate-validator-annotation-processor.version}"/>
+    <dependency conf="runtime->default" name="curator-client" org="org.apache.curator" rev="${org.apache.curator.curator-client.version}"/>
+    <dependency conf="runtime->default" name="curator-framework" org="org.apache.curator" rev="${org.apache.curator.curator-framework.version}"/>
+    <dependency conf="runtime->default" name="curator-recipes" org="org.apache.curator" rev="${org.apache.curator.curator-recipes.version}"/>
+
+    <!--Dependecies for Error Code System project in compile only.  As this lib will be deployed in ear.lib, so it should be reached at runtime. -->
+    <dependency branch="trunk" org="com.successfactors" transitive="false" name="au-errorcodesystem-service" rev="${com.successfactors.au-errorcodesystem.version}" conf="compile->default" />
+    
+  </dependencies>
+
+</ivy-module>
